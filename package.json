@@ -1,0 +1,24 @@
+{
+  "name": "prepfast",
+  "version": "1.0.0",
+  "description": "PrepFast - Smart recipe vault, interactive meal planner, and automated grocery generator",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "start": "npm run start --prefix frontend",
+    "lint": "npm run lint --prefix frontend"
+  },
+  "keywords": [
+    "recipe",
+    "meal-planner",
+    "grocery-list",
+    "nextjs",
+    "supabase",
+    "react",
+    "nodejs"
+  ],
+  "author": "PrepFast",
+  "license": "MIT"
+}
+

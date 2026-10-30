@@ -1,6 +1,6 @@
 import { GroceryAisleGroup, GroceryItem, MealPlan, PantryItem, ParsedRecipeResponse, Recipe, AisleCategory } from './types';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
 
 export async function parseRecipeFromUrl(url: string): Promise<ParsedRecipeResponse> {
   try {
