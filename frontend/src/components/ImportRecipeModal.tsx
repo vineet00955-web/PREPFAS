@@ -100,7 +100,7 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden my-8 max-h-[92vh] flex flex-col">
+      <div className="relative w-full max-w-3xl bg-white dark:bg-stone-900 rounded-3xl shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden my-8 max-h-[92vh] flex flex-col">
         {/* Header */}
         <div className="p-6 bg-stone-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -110,7 +110,7 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
             <div>
               <h2 className="text-xl font-bold">Import Recipe via URL</h2>
               <p className="text-xs text-stone-400">
-                Powered by FastAPI scraper with automatic aisle categorization
+                Powered by intelligent recipe scraper with automatic aisle categorization
               </p>
             </div>
           </div>
@@ -126,7 +126,7 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
         <div className="p-6 overflow-y-auto flex-1 space-y-6">
           {/* Step 1: URL input */}
           <form onSubmit={handleScrape} className="space-y-3">
-            <label className="block text-sm font-semibold text-stone-800">
+            <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">
               Paste Recipe Link (Food Network, Allrecipes, NYT Cooking, blogs, etc.)
             </label>
             <div className="flex gap-2">
@@ -137,14 +137,14 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
                   placeholder="https://www.allrecipes.com/recipe/..."
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-stone-300 text-stone-900 focus:outline-none focus:ring-2 focus:ring-primary text-sm shadow-sm"
+                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-stone-300 dark:border-stone-700 text-stone-900 dark:text-stone-100 bg-white dark:bg-stone-950 focus:outline-none focus:ring-2 focus:ring-primary text-sm shadow-sm placeholder-stone-400"
                   required
                 />
               </div>
               <button
                 type="submit"
                 disabled={loading || !url.trim()}
-                className="px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover disabled:bg-stone-300 text-white font-semibold text-sm shadow-md transition-colors flex items-center gap-2 flex-shrink-0"
+                className="px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover disabled:bg-stone-300 dark:disabled:bg-stone-800 text-white font-semibold text-sm shadow-md transition-colors flex items-center gap-2 flex-shrink-0"
               >
                 {loading ? (
                   <>
@@ -161,7 +161,7 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
             </div>
 
             {error && (
-              <p className="text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200">
+              <p className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 p-2.5 rounded-lg border border-red-200 dark:border-red-900">
                 {error}
               </p>
             )}
@@ -169,54 +169,54 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
 
           {/* Step 2: Parsed Preview & Editable Form */}
           {parsed && (
-            <div className="border-t border-stone-200 pt-6 space-y-6">
+            <div className="border-t border-stone-200 dark:border-stone-800 pt-6 space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="font-bold text-stone-900 text-lg flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-emerald-600" />
+                <h3 className="font-bold text-stone-900 dark:text-stone-100 text-lg flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                   <span>Parsed Recipe (Editable Preview)</span>
                 </h3>
-                <span className="text-xs text-stone-500">Review before saving</span>
+                <span className="text-xs text-stone-500 dark:text-stone-400">Review before saving</span>
               </div>
 
               {/* Title, Time, Servings */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="md:col-span-3">
-                  <label className="block text-xs font-semibold text-stone-600 mb-1">Recipe Title</label>
+                  <label className="block text-xs font-semibold text-stone-600 dark:text-stone-400 mb-1">Recipe Title</label>
                   <input
                     type="text"
                     value={parsed.title}
                     onChange={(e) => updateParsedField('title', e.target.value)}
-                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-stone-900 font-semibold text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-semibold text-sm focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-600 mb-1">Prep Time (mins)</label>
+                  <label className="block text-xs font-semibold text-stone-600 dark:text-stone-400 mb-1">Prep Time (mins)</label>
                   <input
                     type="number"
                     value={parsed.prep_time_mins}
                     onChange={(e) => updateParsedField('prep_time_mins', parseInt(e.target.value) || 0)}
-                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-stone-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-600 mb-1">Servings Yield</label>
+                  <label className="block text-xs font-semibold text-stone-600 dark:text-stone-400 mb-1">Servings Yield</label>
                   <input
                     type="number"
                     value={parsed.servings}
                     onChange={(e) => updateParsedField('servings', parseInt(e.target.value) || 1)}
-                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-stone-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-600 mb-1">Image URL</label>
+                  <label className="block text-xs font-semibold text-stone-600 dark:text-stone-400 mb-1">Image URL</label>
                   <input
                     type="text"
                     value={parsed.image_url || ''}
                     onChange={(e) => updateParsedField('image_url', e.target.value)}
-                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-stone-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                 </div>
               </div>
@@ -224,7 +224,7 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
               {/* Editable Ingredients Table */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-bold text-stone-700 uppercase tracking-wider">
+                  <label className="text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider">
                     Ingredients ({parsed.ingredients.length})
                   </label>
                   <button
@@ -241,34 +241,34 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
                   {parsed.ingredients.map((ing, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center gap-2 p-2 rounded-xl bg-stone-50 border border-stone-200"
+                      className="flex items-center gap-2 p-2 rounded-xl bg-stone-50 dark:bg-stone-800/80 border border-stone-200 dark:border-stone-750"
                     >
                       <input
                         type="number"
                         step="0.05"
                         value={ing.amount}
                         onChange={(e) => handleIngredientChange(idx, 'amount', parseFloat(e.target.value) || 0)}
-                        className="w-16 px-2 py-1 text-xs rounded-lg border border-stone-300 bg-white"
+                        className="w-16 px-2 py-1 text-xs rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100"
                         placeholder="Qty"
                       />
                       <input
                         type="text"
                         value={ing.unit}
                         onChange={(e) => handleIngredientChange(idx, 'unit', e.target.value)}
-                        className="w-20 px-2 py-1 text-xs rounded-lg border border-stone-300 bg-white"
-                        placeholder="Unit (cup, tbsp)"
+                        className="w-20 px-2 py-1 text-xs rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100"
+                        placeholder="Unit"
                       />
                       <input
                         type="text"
                         value={ing.name}
                         onChange={(e) => handleIngredientChange(idx, 'name', e.target.value)}
-                        className="flex-1 px-2.5 py-1 text-xs rounded-lg border border-stone-300 bg-white font-medium"
+                        className="flex-1 px-2.5 py-1 text-xs rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 font-medium text-stone-900 dark:text-stone-100"
                         placeholder="Ingredient name"
                       />
                       <select
                         value={ing.category}
                         onChange={(e) => handleIngredientChange(idx, 'category', e.target.value as AisleCategory)}
-                        className="px-2 py-1 text-xs rounded-lg border border-stone-300 bg-white capitalize"
+                        className="px-2 py-1 text-xs rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 capitalize"
                       >
                         <option value="Produce">Produce</option>
                         <option value="Dairy">Dairy</option>
@@ -294,7 +294,7 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
 
               {/* Editable Instructions */}
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-2">
                   Instructions ({parsed.instructions.length} steps)
                 </label>
                 <textarea
@@ -306,7 +306,7 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
                       e.target.value.split('\n').filter((s) => s.trim().length > 0)
                     )
                   }
-                  className="w-full p-3 text-xs rounded-xl border border-stone-300 text-stone-800 focus:outline-none focus:ring-2 focus:ring-primary leading-relaxed"
+                  className="w-full p-3 text-xs rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-primary leading-relaxed"
                   placeholder="One step per line..."
                 />
               </div>
@@ -316,10 +316,10 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
 
         {/* Footer Actions */}
         {parsed && (
-          <div className="p-4 bg-stone-50 border-t border-stone-200 flex justify-end gap-3">
+          <div className="p-4 bg-stone-50 dark:bg-stone-850 border-t border-stone-200 dark:border-stone-800 flex justify-end gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-stone-600 hover:text-stone-900 font-medium text-xs"
+              className="px-4 py-2 rounded-xl text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white font-medium text-xs"
             >
               Cancel
             </button>
@@ -335,4 +335,3 @@ export function ImportRecipeModal({ isOpen, onClose, onSave }: ImportRecipeModal
     </div>
   );
 }
-

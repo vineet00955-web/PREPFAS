@@ -1,15 +1,15 @@
-# PrepFast 🍳
+# EXTEP 🍳
 
 **Smart Recipe Vault, Interactive Meal Planner & Automated Grocery Generator**
 
-PrepFast is a full-stack web application designed to streamline meal planning, recipe management, and grocery shopping. It combines modern web UX with an intelligent Python backend for recipe parsing, serving scaling, and aisle-categorized shopping lists with automatic pantry deduction.
+EXTEP is a modern full-stack web application designed to streamline meal planning, recipe management, and grocery shopping. It combines modern web UX with intelligent recipe parsing, serving scaling, dynamic theme switching (System, Light, Dark), and aisle-categorized shopping lists with automatic pantry deduction.
 
 ---
 
 ## 🌟 Key Features
 
 1. **Smart Recipe Vault (`/recipes`)**
-   - **URL Importer:** Paste any recipe URL (Allrecipes, NYT Cooking, Food Network, culinary blogs) to scrape title, prep time, yield, ingredients, instructions, and photo via FastAPI (`recipe-scrapers` + `BeautifulSoup4` JSON-LD schema fallback).
+   - **URL Importer:** Paste any recipe URL (Allrecipes, NYT Cooking, Food Network, culinary blogs) to scrape title, prep time, yield, ingredients, instructions, and photo with automatic aisle categorization.
    - **Editable Review Flow:** Inspect and tweak extracted quantities, units, and auto-classified aisle categories before saving to the database.
    - **Custom Recipe Builder:** Create recipes manually with dynamic ingredient rows and step-by-step directions.
    - **Filter & Search:** Real-time search and tag filtering (Dinner, High-Protein, Vegetarian, Quick & Easy, etc.).
@@ -31,36 +31,36 @@ PrepFast is a full-stack web application designed to streamline meal planning, r
    - Track staple ingredients on hand.
    - Quick-add interface with quantity steppers and aisle categorization.
 
+5. **Dynamic Theme Switching**
+   - Seamless support for **System Default**, **Light**, and **Dark** modes via `next-themes` and Tailwind CSS.
+
 ---
 
 ## 📐 Architecture & Tech Stack
 
-- **Frontend:** Next.js 14 (App Router, React 18, TypeScript)
-- **Styling:** Tailwind CSS, Framer Motion, Lucide Icons
+- **Frontend & Fullstack API:** Next.js 14 (App Router, React 18, TypeScript)
+- **Styling:** Tailwind CSS (`darkMode: ["class"]`), Framer Motion, Lucide Icons, `next-themes`
 - **Drag-and-Drop:** `@hello-pangea/dnd`
-- **Backend API:** Python 3.11+ (FastAPI, Uvicorn, BeautifulSoup4, Recipe-Scrapers, Pydantic, HTTPX)
+- **Scraper & Normalizer:** Native Node.js & Cheerio engine + optional Python FastAPI backend
 - **Database & Auth:** Supabase (PostgreSQL with Row Level Security, Storage Bucket)
-- **Deployment:** Vercel (Frontend) + Render / Fly.io / Docker (Backend)
+- **Deployment:** Vercel (Frontend & Serverless API) / Docker
 
 ---
 
 ## 📂 Codebase Directory Layout
 
 ```text
-PREPFAS/
-├── backend/                      # Python FastAPI Service
-│   ├── main.py                   # Recipe scraping, parsing & aggregation API
-│   ├── requirements.txt          # Python dependencies
-│   ├── Dockerfile                # Production Docker container
-│   ├── render.yaml               # Deployment config for Render
-│   └── fly.toml                  # Deployment config for Fly.io
-│
+EXTEP/
 ├── frontend/                     # Next.js 14 App Router
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── layout.tsx        # Root layout with responsive Sidebar
+│   │   │   ├── api/              # Native Node.js API endpoints
+│   │   │   │   ├── parse-recipe/
+│   │   │   │   ├── normalize-ingredients/
+│   │   │   │   └── aggregate-grocery-list/
+│   │   │   ├── layout.tsx        # Root layout with ThemeProvider & Sidebar
 │   │   │   ├── page.tsx          # Dashboard overview & today's meals
-│   │   │   ├── globals.css       # Tailwind CSS styles & print styles
+│   │   │   ├── globals.css       # Tailwind CSS styles & dark variables
 │   │   │   ├── recipes/
 │   │   │   │   └── page.tsx      # Recipe Vault & search/filter
 │   │   │   ├── planner/
@@ -70,13 +70,16 @@ PREPFAS/
 │   │   │   └── pantry/
 │   │   │       └── page.tsx      # Pantry stock inventory tracker
 │   │   ├── components/
-│   │   │   ├── Sidebar.tsx       # Navigation bar with mobile drawer
+│   │   │   ├── Sidebar.tsx       # Navigation bar with ThemeToggle
+│   │   │   ├── ThemeProvider.tsx # Next-themes Provider wrapper
+│   │   │   ├── ThemeToggle.tsx   # System / Light / Dark switcher
 │   │   │   ├── RecipeCard.tsx    # Card with prep time, servings & tags
 │   │   │   ├── RecipeModal.tsx   # Detailed recipe view with serving scaler
 │   │   │   ├── ImportRecipeModal.tsx # URL scraper preview & editor
 │   │   │   └── AddRecipeModal.tsx    # Manual recipe creation form
 │   │   └── lib/
-│   │       ├── api.ts            # Backend API client & local engine
+│   │       ├── api.ts            # Client API caller & local fallback
+│   │       ├── recipeParser.ts   # Scraping & unit normalization engine
 │   │       ├── initialData.ts    # Pre-seeded chef-crafted recipes
 │   │       ├── store.ts          # Reactive client store & Supabase sync
 │   │       ├── supabase.ts       # Supabase browser client
@@ -84,72 +87,28 @@ PREPFAS/
 │   │       └── utils.ts          # Fraction & date formatting helpers
 │   ├── package.json
 │   ├── tailwind.config.ts
-│   ├── tsconfig.json
-│   ├── Dockerfile
-│   └── .env.example
+│   └── tsconfig.json
 │
+├── backend/                      # Optional Python FastAPI Service
 ├── supabase/
 │   ├── schema.sql                # Complete PostgreSQL DDL with RLS
-│   └── seed.sql                  # Seed data with 4 curated recipes
+│   └── seed.sql                  # Seed data with curated recipes
 │
+├── package.json                  # Root npm workspace commands
 ├── docker-compose.yml            # Multi-container orchestration
 └── README.md                     # Project documentation
 ```
 
 ---
 
-## 🗄️ Database Setup (Supabase)
-
-1. Go to your [Supabase Dashboard](https://supabase.com).
-2. Open the **SQL Editor**.
-3. Copy and run the contents of [`supabase/schema.sql`](supabase/schema.sql):
-   - Creates `recipes`, `ingredients`, `meal_plans`, `pantry` tables.
-   - Sets foreign keys with `ON DELETE CASCADE`.
-   - Configures Row Level Security (RLS) policies allowing users to manage only their own data.
-   - Creates the `recipe-images` public storage bucket.
-4. (Optional) Run [`supabase/seed.sql`](supabase/seed.sql) to populate sample recipes and meal plans.
-
----
-
 ## 🚀 Running Locally
 
-### 1. Start the FastAPI Backend
 ```bash
-cd backend
-python -m venv venv
-# On Windows:
-.\venv\Scripts\activate
-# On macOS/Linux:
-# source venv/bin/activate
-
-pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
-```
-API documentation is available at `http://localhost:8000/docs`.
-
-### 2. Start the Next.js Frontend
-```bash
-cd frontend
+# From workspace root:
 npm install
 npm run dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-> **Zero-Config Demo Mode:** PrepFast runs out-of-the-box with preloaded recipes, meal planner, and grocery generator using local persistence if Supabase credentials are not yet configured! To connect to your Supabase project, copy `.env.example` to `.env.local` and add your URL and anon key.
-
----
-
-## 🚢 Production Deployment
-
-### Backend (Render / Fly.io)
-- **Render:** Connect your Git repo; Render automatically picks up [`backend/render.yaml`](backend/render.yaml).
-- **Fly.io:** Run `fly launch` inside `backend/` using [`backend/fly.toml`](backend/fly.toml).
-
-### Frontend (Vercel)
-1. Push your repository to GitHub.
-2. Import the project in Vercel with Root Directory set to `frontend`.
-3. Set Environment Variables:
-   - `NEXT_PUBLIC_API_URL`: Your deployed FastAPI backend URL
-   - `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase URL (optional)
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anon key (optional)
-
+> **Zero-Config Demo Mode:** EXTEP runs out-of-the-box with preloaded recipes, meal planner, and grocery generator using local persistence if Supabase credentials are not yet configured! To connect to your Supabase project, copy `.env.example` to `.env.local` and add your URL and anon key.

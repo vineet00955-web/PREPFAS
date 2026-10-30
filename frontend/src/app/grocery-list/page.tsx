@@ -1,114 +1,97 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import {
   ShoppingCart,
-  CheckCircle2,
   Boxes,
   Printer,
   Copy,
-  Plus,
-  RefreshCw,
-  Sparkles,
-  ShieldCheck,
   Check,
+  CheckCircle2,
   Calendar,
+  Sparkles,
+  Plus,
+  ShieldCheck,
 } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { computeClientGroceryList } from '@/lib/api';
 import { AisleCategory, GroceryItem } from '@/lib/types';
 import { formatFraction } from '@/lib/utils';
-import confetti from 'canvas-confetti';
 
 const AISLE_ICONS: Record<AisleCategory, string> = {
   Produce: '🥬',
   Dairy: '🧀',
   Meat: '🥩',
-  Pantry: '🌾',
+  Pantry: '🥫',
   Spices: '🧂',
   Frozen: '🧊',
   Bakery: '🍞',
-  Beverages: '☕',
+  Beverages: '🧃',
   Other: '📦',
 };
 
 export default function GroceryListPage() {
   const store = useStore();
-  const recipes = store.getRecipes();
   const mealPlans = store.getMealPlans();
+  const recipes = store.getRecipes();
   const pantry = store.getPantry();
 
-  // Pantry deduction toggle state
-  const [deductPantry, setDeductPantry] = useState<boolean>(true);
-  // Checked items set (by item id)
+  // Deduct pantry switch
+  const [deductPantry, setDeductPantry] = useState(true);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
-  // Custom manual items
-  const [customItems, setCustomItems] = useState<GroceryItem[]>([]);
-  const [newCustomName, setNewCustomName] = useState('');
-  const [newCustomCategory, setNewCustomCategory] = useState<AisleCategory>('Produce');
   const [copySuccess, setCopySuccess] = useState(false);
 
+  // Quick manual add item
+  const [newCustomName, setNewCustomName] = useState('');
+  const [newCustomCategory, setNewCustomCategory] = useState<AisleCategory>('Produce');
+  const [customItems, setCustomItems] = useState<GroceryItem[]>([]);
+
   // Compute aggregated list
-  const aggregatedData = useMemo(() => {
-    return computeClientGroceryList(mealPlans, recipes, pantry, deductPantry);
-  }, [mealPlans, recipes, pantry, deductPantry]);
+  const { total_items_count, aisles } = computeClientGroceryList(
+    mealPlans,
+    recipes,
+    pantry,
+    deductPantry
+  );
 
-  // Combine aggregated aisle groups with custom items
-  const aisleGroups = useMemo(() => {
-    const groups = aggregatedData.aisles.map((g) => ({
-      ...g,
-      items: [...g.items],
+  // Merge custom items into aisles
+  const aisleMap = new Map<string, GroceryItem[]>();
+  aisles.forEach((g) => aisleMap.set(g.category, [...g.items]));
+
+  customItems.forEach((c) => {
+    const list = aisleMap.get(c.category) || [];
+    list.push(c);
+    aisleMap.set(c.category, list);
+  });
+
+  const aisleOrder: AisleCategory[] = [
+    'Produce',
+    'Dairy',
+    'Meat',
+    'Pantry',
+    'Spices',
+    'Frozen',
+    'Bakery',
+    'Beverages',
+    'Other',
+  ];
+
+  const aisleGroups = aisleOrder
+    .map((cat) => ({
+      category: cat,
+      items: aisleMap.get(cat) || [],
+    }))
+    .filter((g) => g.items.length > 0);
+
+  const totalItemCount = aisleGroups.reduce((acc, curr) => acc + curr.items.length, 0);
+  const checkedCount = Object.values(checkedItems).filter(Boolean).length;
+
+  const toggleCheck = (id: string) => {
+    setCheckedItems((prev) => ({
+      ...prev,
+      [id]: !prev[id],
     }));
-
-    // Inject custom items into their respective category
-    customItems.forEach((ci) => {
-      const target = groups.find((g) => g.category === ci.category);
-      if (target) {
-        target.items.push(ci);
-        target.count += 1;
-      } else {
-        groups.push({
-          category: ci.category,
-          count: 1,
-          items: [ci],
-        });
-      }
-    });
-
-    return groups;
-  }, [aggregatedData, customItems]);
-
-  const totalItemCount = useMemo(() => {
-    return aisleGroups.reduce((acc, g) => acc + g.items.length, 0);
-  }, [aisleGroups]);
-
-  const checkedCount = useMemo(() => {
-    let count = 0;
-    aisleGroups.forEach((g) => {
-      g.items.forEach((item) => {
-        if (checkedItems[item.id]) count++;
-      });
-    });
-    return count;
-  }, [aisleGroups, checkedItems]);
-
-  const toggleCheck = (itemId: string) => {
-    const nextState = !checkedItems[itemId];
-    setCheckedItems((prev) => ({ ...prev, [itemId]: nextState }));
-
-    // If all items checked, trigger celebratory confetti!
-    if (nextState && checkedCount + 1 === totalItemCount && totalItemCount > 0) {
-      try {
-        confetti({
-          particleCount: 80,
-          spread: 60,
-          origin: { y: 0.6 },
-        });
-      } catch (e) {
-        // ignore
-      }
-    }
   };
 
   const handleAddCustomItem = (e: React.FormEvent) => {
@@ -133,7 +116,7 @@ export default function GroceryListPage() {
   };
 
   const handleCopyList = () => {
-    let text = '🛒 PrepFast Grocery Checklist\n\n';
+    let text = '🛒 EXTEP Grocery Checklist\n\n';
     aisleGroups.forEach((group) => {
       text += `--- ${group.category.toUpperCase()} ---\n`;
       group.items.forEach((item) => {
@@ -157,17 +140,17 @@ export default function GroceryListPage() {
   return (
     <div className="p-4 sm:p-6 lg:p-10 max-w-5xl mx-auto space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-stone-200/80 shadow-subtle">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-stone-900 p-6 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-subtle">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 mb-1.5">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 mb-1.5">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Aisle-Optimized Generator</span>
           </div>
-          <h1 className="text-2xl lg:text-3xl font-extrabold text-stone-900 tracking-tight flex items-center gap-2">
+          <h1 className="text-2xl lg:text-3xl font-extrabold text-stone-900 dark:text-stone-100 tracking-tight flex items-center gap-2">
             <ShoppingCart className="w-7 h-7 text-primary" />
             <span>Smart Grocery List</span>
           </h1>
-          <p className="text-stone-500 text-xs sm:text-sm mt-0.5">
+          <p className="text-stone-500 dark:text-stone-400 text-xs sm:text-sm mt-0.5">
             Auto-aggregated from {mealPlans.length} scheduled meals across your weekly planner.
           </p>
         </div>
@@ -176,15 +159,15 @@ export default function GroceryListPage() {
         <div className="flex flex-wrap items-center gap-2.5">
           <button
             onClick={handleCopyList}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-700 text-xs font-semibold transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-750 text-stone-700 dark:text-stone-200 text-xs font-semibold transition-colors"
           >
-            {copySuccess ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+            {copySuccess ? <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-4 h-4" />}
             <span>{copySuccess ? 'Copied!' : 'Copy'}</span>
           </button>
 
           <button
             onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-700 text-xs font-semibold transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-750 text-stone-700 dark:text-stone-200 text-xs font-semibold transition-colors"
           >
             <Printer className="w-4 h-4" />
             <span>Print</span>
@@ -192,7 +175,7 @@ export default function GroceryListPage() {
 
           <Link
             href="/planner"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-900 text-white text-xs font-semibold hover:bg-black transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-900 dark:bg-stone-800 text-white text-xs font-semibold hover:bg-black dark:hover:bg-stone-700 transition-colors"
           >
             <Calendar className="w-4 h-4 text-amber-400" />
             <span>Edit Planner</span>
@@ -201,23 +184,23 @@ export default function GroceryListPage() {
       </div>
 
       {/* Control Bar: Pantry Deduction Toggle + Progress Bar */}
-      <div className="bg-white p-5 rounded-2xl border border-stone-200/80 shadow-subtle space-y-4">
+      <div className="bg-white dark:bg-stone-900 p-5 rounded-2xl border border-stone-200/80 dark:border-stone-800 shadow-subtle space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Pantry Toggle */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
               <Boxes className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-stone-900">
+                <span className="text-sm font-bold text-stone-900 dark:text-stone-100">
                   Deduct items in my Pantry
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-stone-100 text-stone-600">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300">
                   {pantry.length} in stock
                 </span>
               </div>
-              <p className="text-xs text-stone-500">
+              <p className="text-xs text-stone-500 dark:text-stone-400">
                 Automatically subtract matching pantry inventory from needed quantities
               </p>
             </div>
@@ -230,20 +213,20 @@ export default function GroceryListPage() {
               onChange={(e) => setDeductPantry(e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-stone-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+            <div className="w-11 h-6 bg-stone-200 dark:bg-stone-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
           </label>
         </div>
 
         {/* Progress Bar for Shopping Walk */}
         {totalItemCount > 0 && (
-          <div className="pt-2 border-t border-stone-100 space-y-1.5">
+          <div className="pt-2 border-t border-stone-100 dark:border-stone-800 space-y-1.5">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-semibold text-stone-700">Shopping Progress</span>
-              <span className="text-stone-500 font-medium">
+              <span className="font-semibold text-stone-700 dark:text-stone-300">Shopping Progress</span>
+              <span className="text-stone-500 dark:text-stone-400 font-medium">
                 {checkedCount} of {totalItemCount} items packed ({progressPercent}%)
               </span>
             </div>
-            <div className="w-full h-2.5 rounded-full bg-stone-100 overflow-hidden">
+            <div className="w-full h-2.5 rounded-full bg-stone-100 dark:bg-stone-800 overflow-hidden">
               <div
                 className="h-full bg-emerald-500 rounded-full transition-all duration-300 ease-out"
                 style={{ width: `${progressPercent}%` }}
@@ -256,9 +239,9 @@ export default function GroceryListPage() {
       {/* Quick Add Custom Item Form */}
       <form
         onSubmit={handleAddCustomItem}
-        className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex flex-wrap items-center gap-3"
+        className="p-4 rounded-2xl bg-stone-50 dark:bg-stone-850/70 border border-stone-200 dark:border-stone-800 flex flex-wrap items-center gap-3"
       >
-        <span className="text-xs font-bold text-stone-700 uppercase tracking-wider">
+        <span className="text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider">
           Quick Add:
         </span>
         <input
@@ -266,12 +249,12 @@ export default function GroceryListPage() {
           placeholder="e.g. Paper towels, Sparkling water, Coffee"
           value={newCustomName}
           onChange={(e) => setNewCustomName(e.target.value)}
-          className="flex-1 min-w-[200px] px-3 py-1.5 rounded-xl border border-stone-300 bg-white text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-primary"
+          className="flex-1 min-w-[200px] px-3 py-1.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-xs text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-1 focus:ring-primary"
         />
         <select
           value={newCustomCategory}
           onChange={(e) => setNewCustomCategory(e.target.value as AisleCategory)}
-          className="px-3 py-1.5 rounded-xl border border-stone-300 bg-white text-xs capitalize text-stone-800"
+          className="px-3 py-1.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-xs capitalize text-stone-800 dark:text-stone-200"
         >
           <option value="Produce">Produce</option>
           <option value="Dairy">Dairy</option>
@@ -285,7 +268,7 @@ export default function GroceryListPage() {
         </select>
         <button
           type="submit"
-          className="px-4 py-1.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs font-semibold flex items-center gap-1 shadow-sm transition-colors"
+          className="px-4 py-1.5 rounded-xl bg-stone-900 dark:bg-stone-800 hover:bg-black dark:hover:bg-stone-700 text-white text-xs font-semibold flex items-center gap-1 shadow-sm transition-colors"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Add to List</span>
@@ -294,10 +277,10 @@ export default function GroceryListPage() {
 
       {/* Empty State */}
       {totalItemCount === 0 ? (
-        <div className="text-center py-16 px-4 rounded-3xl bg-white border border-dashed border-stone-300 space-y-3">
-          <ShoppingCart className="w-12 h-12 text-stone-300 mx-auto" />
-          <h3 className="text-stone-800 font-bold text-base">Your grocery list is empty!</h3>
-          <p className="text-xs text-stone-500 max-w-sm mx-auto">
+        <div className="text-center py-16 px-4 rounded-3xl bg-white dark:bg-stone-900 border border-dashed border-stone-300 dark:border-stone-700 space-y-3">
+          <ShoppingCart className="w-12 h-12 text-stone-300 dark:text-stone-600 mx-auto" />
+          <h3 className="text-stone-800 dark:text-stone-200 font-bold text-base">Your grocery list is empty!</h3>
+          <p className="text-xs text-stone-500 dark:text-stone-400 max-w-sm mx-auto">
             Schedule recipes into your weekly meal planner, or toggle off pantry deduction if all
             items are already covered by your pantry stock.
           </p>
@@ -315,21 +298,21 @@ export default function GroceryListPage() {
           {aisleGroups.map((aisle) => (
             <div
               key={aisle.category}
-              className="bg-white rounded-2xl border border-stone-200/90 shadow-subtle overflow-hidden"
+              className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200/90 dark:border-stone-800 shadow-subtle overflow-hidden"
             >
               {/* Aisle Header */}
-              <div className="bg-stone-50/90 border-b border-stone-200 px-5 py-3 flex items-center justify-between">
+              <div className="bg-stone-50/90 dark:bg-stone-850 border-b border-stone-200 dark:border-stone-800 px-5 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">{AISLE_ICONS[aisle.category] || '📦'}</span>
-                  <h2 className="font-bold text-stone-900 text-sm">{aisle.category} Aisle</h2>
+                  <h2 className="font-bold text-stone-900 dark:text-stone-100 text-sm">{aisle.category} Aisle</h2>
                 </div>
-                <span className="text-[11px] font-semibold text-stone-500 bg-stone-200/60 px-2 py-0.5 rounded-full">
+                <span className="text-[11px] font-semibold text-stone-500 dark:text-stone-400 bg-stone-200/60 dark:bg-stone-800 px-2 py-0.5 rounded-full">
                   {aisle.items.length} {aisle.items.length === 1 ? 'item' : 'items'}
                 </span>
               </div>
 
               {/* Checklist Items */}
-              <div className="divide-y divide-stone-100">
+              <div className="divide-y divide-stone-100 dark:divide-stone-800">
                 {aisle.items.map((item) => {
                   const isChecked = Boolean(checkedItems[item.id]);
 
@@ -339,8 +322,8 @@ export default function GroceryListPage() {
                       onClick={() => toggleCheck(item.id)}
                       className={`p-3.5 sm:px-5 flex items-center justify-between gap-4 cursor-pointer select-none transition-colors ${
                         isChecked
-                          ? 'bg-stone-50/70 text-stone-400'
-                          : 'hover:bg-amber-50/30 text-stone-800'
+                          ? 'bg-stone-50/70 dark:bg-stone-950/40 text-stone-400 dark:text-stone-500'
+                          : 'hover:bg-amber-50/30 dark:hover:bg-stone-800/50 text-stone-800 dark:text-stone-200'
                       }`}
                     >
                       {/* Checkbox & Name */}
@@ -349,7 +332,7 @@ export default function GroceryListPage() {
                           className={`w-5 h-5 rounded-lg border flex items-center justify-center transition-all ${
                             isChecked
                               ? 'bg-emerald-600 border-emerald-600 text-white'
-                              : 'border-stone-300 bg-white hover:border-primary'
+                              : 'border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 hover:border-primary'
                           }`}
                         >
                           {isChecked && <CheckCircle2 className="w-3.5 h-3.5 stroke-[3]" />}
@@ -358,14 +341,14 @@ export default function GroceryListPage() {
                         <div className="min-w-0">
                           <p
                             className={`text-sm font-semibold truncate ${
-                              isChecked ? 'line-through text-stone-400' : 'text-stone-900'
+                              isChecked ? 'line-through text-stone-400 dark:text-stone-500' : 'text-stone-900 dark:text-stone-100'
                             }`}
                           >
                             {item.name}
                           </p>
 
                           {item.recipes && item.recipes.length > 0 && (
-                            <p className="text-[11px] text-stone-400 truncate">
+                            <p className="text-[11px] text-stone-400 dark:text-stone-500 truncate">
                               For: {item.recipes.join(', ')}
                             </p>
                           )}
@@ -376,10 +359,10 @@ export default function GroceryListPage() {
                       <div className="flex items-center gap-2 text-right flex-shrink-0">
                         {item.pantry_stock > 0 && deductPantry && (
                           <span
-                            className="hidden sm:inline-flex items-center gap-1 text-[10px] font-medium text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md"
+                            className="hidden sm:inline-flex items-center gap-1 text-[10px] font-medium text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 px-2 py-0.5 rounded-md"
                             title={`Had ${item.pantry_stock} in pantry`}
                           >
-                            <ShieldCheck className="w-3 h-3 text-amber-600" />
+                            <ShieldCheck className="w-3 h-3 text-amber-600 dark:text-amber-400" />
                             <span>Pantry -{item.pantry_stock}</span>
                           </span>
                         )}
@@ -387,8 +370,8 @@ export default function GroceryListPage() {
                         <span
                           className={`text-xs font-bold px-2.5 py-1 rounded-lg ${
                             isChecked
-                              ? 'bg-stone-100 text-stone-400'
-                              : 'bg-stone-100 text-stone-900'
+                              ? 'bg-stone-100 dark:bg-stone-800 text-stone-400 dark:text-stone-500'
+                              : 'bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100'
                           }`}
                         >
                           {formatFraction(item.net_needed)} {item.unit}
@@ -405,4 +388,3 @@ export default function GroceryListPage() {
     </div>
   );
 }
-

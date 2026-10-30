@@ -36,7 +36,7 @@ export function RecipeModal({ recipe, onClose, onAddToPlanner }: RecipeModalProp
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden my-8 max-h-[90vh] flex flex-col">
+      <div className="relative w-full max-w-3xl bg-white dark:bg-stone-900 rounded-3xl shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden my-8 max-h-[90vh] flex flex-col">
         {/* Header Photo & Close */}
         <div className="relative h-64 w-full bg-stone-900 flex-shrink-0">
           <img
@@ -73,33 +73,33 @@ export function RecipeModal({ recipe, onClose, onAddToPlanner }: RecipeModalProp
         </div>
 
         {/* Modal Controls Bar */}
-        <div className="bg-stone-50 border-b border-stone-200 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-6 text-sm text-stone-700">
+        <div className="bg-stone-50 dark:bg-stone-850 border-b border-stone-200 dark:border-stone-800 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-6 text-sm text-stone-700 dark:text-stone-300">
             <div className="flex items-center gap-1.5 font-medium">
               <Clock className="w-4 h-4 text-primary" />
               <span>{recipe.prep_time_mins} minutes</span>
             </div>
 
             {/* Serving Scaler */}
-            <div className="flex items-center gap-2 bg-white px-3 py-1 rounded-xl border border-stone-200 shadow-sm">
-              <Users className="w-4 h-4 text-amber-600" />
-              <span className="text-xs text-stone-500">Yield:</span>
+            <div className="flex items-center gap-2 bg-white dark:bg-stone-800 px-3 py-1 rounded-xl border border-stone-200 dark:border-stone-700 shadow-sm">
+              <Users className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              <span className="text-xs text-stone-500 dark:text-stone-400">Yield:</span>
               <button
                 type="button"
                 onClick={() => setScaledServings((s) => Math.max(1, s - 1))}
-                className="w-6 h-6 rounded-md bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold flex items-center justify-center text-sm"
+                className="w-6 h-6 rounded-md bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 text-stone-700 dark:text-stone-200 font-bold flex items-center justify-center text-sm"
               >
                 -
               </button>
-              <span className="font-bold text-stone-900 px-1 text-sm">{scaledServings}</span>
+              <span className="font-bold text-stone-900 dark:text-stone-100 px-1 text-sm">{scaledServings}</span>
               <button
                 type="button"
                 onClick={() => setScaledServings((s) => s + 1)}
-                className="w-6 h-6 rounded-md bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold flex items-center justify-center text-sm"
+                className="w-6 h-6 rounded-md bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 text-stone-700 dark:text-stone-200 font-bold flex items-center justify-center text-sm"
               >
                 +
               </button>
-              <span className="text-xs text-stone-500">servings</span>
+              <span className="text-xs text-stone-500 dark:text-stone-400">servings</span>
             </div>
           </div>
 
@@ -109,7 +109,7 @@ export function RecipeModal({ recipe, onClose, onAddToPlanner }: RecipeModalProp
                 href={recipe.source_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-medium text-stone-500 hover:text-stone-900 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-stone-200 bg-white"
+                className="text-xs font-medium text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800"
               >
                 <span>Original Link</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -132,25 +132,25 @@ export function RecipeModal({ recipe, onClose, onAddToPlanner }: RecipeModalProp
         {showPlannerForm && (
           <form
             onSubmit={handlePlanSubmit}
-            className="bg-amber-50/70 border-b border-amber-200 p-4 px-6 flex flex-wrap items-center gap-4 transition-all"
+            className="bg-amber-50/70 dark:bg-amber-950/30 border-b border-amber-200 dark:border-amber-800/50 p-4 px-6 flex flex-wrap items-center gap-4 transition-all"
           >
             <div className="flex items-center gap-2">
-              <label className="text-xs font-semibold text-stone-700">Date:</label>
+              <label className="text-xs font-semibold text-stone-700 dark:text-stone-300">Date:</label>
               <input
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="text-xs rounded-lg border border-stone-300 px-2.5 py-1.5 bg-white text-stone-800 focus:outline-none focus:ring-1 focus:ring-primary"
+                className="text-xs rounded-lg border border-stone-300 dark:border-stone-700 px-2.5 py-1.5 bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 focus:outline-none focus:ring-1 focus:ring-primary"
                 required
               />
             </div>
 
             <div className="flex items-center gap-2">
-              <label className="text-xs font-semibold text-stone-700">Meal:</label>
+              <label className="text-xs font-semibold text-stone-700 dark:text-stone-300">Meal:</label>
               <select
                 value={selectedMealType}
                 onChange={(e) => setSelectedMealType(e.target.value as MealType)}
-                className="text-xs rounded-lg border border-stone-300 px-2.5 py-1.5 bg-white text-stone-800 capitalize focus:outline-none focus:ring-1 focus:ring-primary"
+                className="text-xs rounded-lg border border-stone-300 dark:border-stone-700 px-2.5 py-1.5 bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 capitalize focus:outline-none focus:ring-1 focus:ring-primary"
               >
                 <option value="breakfast">Breakfast</option>
                 <option value="lunch">Lunch</option>
@@ -162,7 +162,7 @@ export function RecipeModal({ recipe, onClose, onAddToPlanner }: RecipeModalProp
             <button
               type="submit"
               disabled={planSuccess}
-              className="px-4 py-1.5 rounded-lg bg-stone-900 text-white text-xs font-semibold hover:bg-black transition-colors flex items-center gap-1.5"
+              className="px-4 py-1.5 rounded-lg bg-stone-900 dark:bg-stone-800 text-white text-xs font-semibold hover:bg-black dark:hover:bg-stone-700 transition-colors flex items-center gap-1.5"
             >
               {planSuccess ? (
                 <>
@@ -181,10 +181,10 @@ export function RecipeModal({ recipe, onClose, onAddToPlanner }: RecipeModalProp
           {/* Ingredients Section */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-stone-900 flex items-center gap-2">
+              <h3 className="text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
                 <span>Ingredients</span>
                 {scaleRatio !== 1 && (
-                  <span className="text-xs font-normal text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
+                  <span className="text-xs font-normal text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/60 px-2 py-0.5 rounded-full">
                     Scaled from {recipe.servings} to {scaledServings} servings
                   </span>
                 )}
@@ -200,17 +200,17 @@ export function RecipeModal({ recipe, onClose, onAddToPlanner }: RecipeModalProp
                 return (
                   <div
                     key={idx}
-                    className="p-3 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-between gap-3 text-sm hover:bg-stone-100/60 transition-colors"
+                    className="p-3 rounded-xl bg-stone-50 dark:bg-stone-800/60 border border-stone-100 dark:border-stone-800 flex items-center justify-between gap-3 text-sm hover:bg-stone-100/60 dark:hover:bg-stone-800 transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
                       <div className="w-2 h-2 rounded-full bg-primary/60 flex-shrink-0" />
-                      <span className="font-semibold text-stone-900">
+                      <span className="font-semibold text-stone-900 dark:text-stone-100">
                         {formatFraction(Number(scaledAmount.toFixed(2)))} {ing.unit}
                       </span>
-                      <span className="text-stone-700">{ing.name}</span>
+                      <span className="text-stone-700 dark:text-stone-300">{ing.name}</span>
                     </div>
 
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-stone-200/80 text-stone-600 flex-shrink-0">
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-stone-200/80 dark:bg-stone-700/80 text-stone-600 dark:text-stone-300 flex-shrink-0">
                       {ing.category}
                     </span>
                   </div>
@@ -221,11 +221,11 @@ export function RecipeModal({ recipe, onClose, onAddToPlanner }: RecipeModalProp
 
           {/* Instructions Section */}
           <div>
-            <h3 className="text-lg font-bold text-stone-900 mb-4">Step-by-Step Directions</h3>
+            <h3 className="text-lg font-bold text-stone-900 dark:text-stone-100 mb-4">Step-by-Step Directions</h3>
             <div className="space-y-4">
               {recipe.instructions?.map((step, idx) => (
-                <div key={idx} className="flex items-start gap-4 text-stone-700 text-sm leading-relaxed">
-                  <div className="w-7 h-7 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div key={idx} className="flex items-start gap-4 text-stone-700 dark:text-stone-300 text-sm leading-relaxed">
+                  <div className="w-7 h-7 rounded-full bg-primary/10 dark:bg-primary/20 text-primary font-bold text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
                     {idx + 1}
                   </div>
                   <p className="flex-1 pt-0.5">{step}</p>
@@ -238,4 +238,3 @@ export function RecipeModal({ recipe, onClose, onAddToPlanner }: RecipeModalProp
     </div>
   );
 }
-

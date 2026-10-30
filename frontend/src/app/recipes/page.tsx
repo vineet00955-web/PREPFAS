@@ -53,11 +53,11 @@ export default function RecipesPage() {
       {/* Top Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-stone-900 tracking-tight flex items-center gap-2.5">
+          <h1 className="text-3xl font-extrabold text-stone-900 dark:text-stone-100 tracking-tight flex items-center gap-2.5">
             <BookOpen className="w-8 h-8 text-primary" />
             <span>Recipe Vault</span>
           </h1>
-          <p className="text-stone-500 text-sm mt-1">
+          <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
             Organize, import from the web, scale servings, and store your culinary favorites.
           </p>
         </div>
@@ -74,16 +74,16 @@ export default function RecipesPage() {
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-stone-50 border border-stone-300 text-stone-800 text-sm font-semibold shadow-sm transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-750 border border-stone-300 dark:border-stone-700 text-stone-800 dark:text-stone-200 text-sm font-semibold shadow-sm transition-colors"
           >
-            <Plus className="w-4 h-4 text-stone-600" />
+            <Plus className="w-4 h-4 text-stone-600 dark:text-stone-400" />
             <span>New Recipe</span>
           </button>
         </div>
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="p-4 rounded-2xl bg-white border border-stone-200/80 shadow-subtle space-y-3">
+      <div className="p-4 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800 shadow-subtle space-y-3">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -92,7 +92,7 @@ export default function RecipesPage() {
               placeholder="Search by recipe title or ingredient..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-stone-50/50"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 dark:border-stone-750 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-stone-50/50 dark:bg-stone-800/60 text-stone-900 dark:text-stone-100 placeholder-stone-400"
             />
           </div>
         </div>
@@ -109,8 +109,8 @@ export default function RecipesPage() {
               onClick={() => setSelectedTag(tag)}
               className={`px-3 py-1 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
                 selectedTag === tag
-                  ? 'bg-stone-900 text-white font-semibold shadow-sm'
-                  : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                  ? 'bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 font-semibold shadow-sm'
+                  : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700'
               }`}
             >
               {tag}
@@ -121,10 +121,10 @@ export default function RecipesPage() {
 
       {/* Recipe Grid */}
       {filteredRecipes.length === 0 ? (
-        <div className="text-center py-16 px-4 rounded-3xl bg-white border border-dashed border-stone-300">
-          <BookOpen className="w-12 h-12 text-stone-300 mx-auto mb-3" />
-          <h3 className="text-stone-800 font-bold text-base">No recipes found</h3>
-          <p className="text-xs text-stone-500 max-w-sm mx-auto mt-1 mb-4">
+        <div className="text-center py-16 px-4 rounded-3xl bg-white dark:bg-stone-900 border border-dashed border-stone-300 dark:border-stone-800">
+          <BookOpen className="w-12 h-12 text-stone-300 dark:text-stone-600 mx-auto mb-3" />
+          <h3 className="text-stone-800 dark:text-stone-200 font-bold text-base">No recipes found</h3>
+          <p className="text-xs text-stone-500 dark:text-stone-400 max-w-sm mx-auto mt-1 mb-4">
             Try adjusting your search query or import a recipe using a web link.
           </p>
           <button
@@ -174,4 +174,3 @@ export default function RecipesPage() {
     </div>
   );
 }
-

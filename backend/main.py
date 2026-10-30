@@ -19,10 +19,10 @@ from pydantic import BaseModel, Field
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("prepfast-backend")
+logger = logging.getLogger("extep-backend")
 
 app = FastAPI(
-    title="PrepFast Recipe & Grocery Engine",
+    title="EXTEP Recipe & Grocery Engine",
     description="Intelligent recipe scraper, ingredient normalizer, and grocery list aggregator",
     version="1.0.0",
 )

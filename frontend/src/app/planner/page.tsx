@@ -112,36 +112,36 @@ export default function MealPlannerPage() {
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="p-4 lg:p-8 max-w-[1600px] mx-auto space-y-6">
         {/* Top Header & Navigation */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-stone-200/80 shadow-subtle">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-stone-900 p-5 rounded-2xl border border-stone-200/80 dark:border-stone-800 shadow-subtle">
           <div>
-            <h1 className="text-2xl lg:text-3xl font-extrabold text-stone-900 tracking-tight flex items-center gap-2.5">
+            <h1 className="text-2xl lg:text-3xl font-extrabold text-stone-900 dark:text-stone-100 tracking-tight flex items-center gap-2.5">
               <CalendarDays className="w-7 h-7 text-primary" />
               <span>Interactive Meal Planner</span>
             </h1>
-            <p className="text-stone-500 text-xs sm:text-sm mt-0.5">
+            <p className="text-stone-500 dark:text-stone-400 text-xs sm:text-sm mt-0.5">
               Drag recipes from the sidebar into slots. Adjust servings on each meal card.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             {/* Week Switcher */}
-            <div className="flex items-center gap-1 bg-stone-100 p-1 rounded-xl border border-stone-200">
+            <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-800 p-1 rounded-xl border border-stone-200 dark:border-stone-700">
               <button
                 onClick={() => setWeekOffset((w) => w - 1)}
-                className="p-1.5 rounded-lg hover:bg-white text-stone-700 transition-colors"
+                className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 transition-colors"
                 title="Previous Week"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setWeekOffset(0)}
-                className="px-3 py-1 rounded-lg text-xs font-semibold hover:bg-white text-stone-800 transition-colors"
+                className="px-3 py-1 rounded-lg text-xs font-semibold hover:bg-white dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 transition-colors"
               >
                 {weekOffset === 0 ? 'Current Week' : `Week ${weekOffset > 0 ? '+' : ''}${weekOffset}`}
               </button>
               <button
                 onClick={() => setWeekOffset((w) => w + 1)}
-                className="p-1.5 rounded-lg hover:bg-white text-stone-700 transition-colors"
+                className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 transition-colors"
                 title="Next Week"
               >
                 <ChevronRight className="w-4 h-4" />
@@ -162,9 +162,9 @@ export default function MealPlannerPage() {
         {/* Main Grid & Draggable Sidebar Layout */}
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Left Draggable Recipe Drawer */}
-          <div className="w-full lg:w-72 bg-white rounded-2xl border border-stone-200/80 shadow-subtle p-4 flex-shrink-0 flex flex-col max-h-[85vh]">
+          <div className="w-full lg:w-72 bg-white dark:bg-stone-900 rounded-2xl border border-stone-200/80 dark:border-stone-800 shadow-subtle p-4 flex-shrink-0 flex flex-col max-h-[85vh]">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold text-stone-900 text-sm flex items-center gap-1.5">
+              <h3 className="font-bold text-stone-900 dark:text-stone-100 text-sm flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-primary" />
                 <span>Drag Recipes</span>
               </h3>
@@ -178,7 +178,7 @@ export default function MealPlannerPage() {
               placeholder="Search recipes..."
               value={recipeSearch}
               onChange={(e) => setRecipeSearch(e.target.value)}
-              className="w-full px-3 py-1.5 rounded-lg border border-stone-200 text-xs mb-3 focus:outline-none focus:ring-1 focus:ring-primary bg-stone-50"
+              className="w-full px-3 py-1.5 rounded-lg border border-stone-200 dark:border-stone-700 text-xs mb-3 focus:outline-none focus:ring-1 focus:ring-primary bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-stone-100"
             />
 
             <Droppable droppableId="recipes-sidebar" isDropDisabled={true}>
@@ -201,8 +201,8 @@ export default function MealPlannerPage() {
                           {...dragProvided.dragHandleProps}
                           className={`p-2.5 rounded-xl border transition-all select-none cursor-grab active:cursor-grabbing ${
                             dragSnapshot.isDragging
-                              ? 'bg-amber-50 border-amber-400 shadow-xl ring-2 ring-amber-400 scale-105 z-50'
-                              : 'bg-stone-50/80 hover:bg-white border-stone-200 hover:border-stone-300 shadow-sm'
+                              ? 'bg-amber-50 dark:bg-amber-950/80 border-amber-400 shadow-xl ring-2 ring-amber-400 scale-105 z-50'
+                              : 'bg-stone-50/80 dark:bg-stone-800/60 hover:bg-white dark:hover:bg-stone-800 border-stone-200 dark:border-stone-750 hover:border-stone-300 shadow-sm'
                           }`}
                         >
                           <div className="flex items-center gap-2.5">
@@ -213,10 +213,10 @@ export default function MealPlannerPage() {
                               className="w-9 h-9 rounded-lg object-cover flex-shrink-0"
                             />
                             <div className="min-w-0 flex-1">
-                              <p className="text-xs font-bold text-stone-900 truncate">
+                              <p className="text-xs font-bold text-stone-900 dark:text-stone-100 truncate">
                                 {recipe.title}
                               </p>
-                              <div className="flex items-center gap-2 text-[10px] text-stone-500 mt-0.5">
+                              <div className="flex items-center gap-2 text-[10px] text-stone-500 dark:text-stone-400 mt-0.5">
                                 <span>{recipe.prep_time_mins}m</span>
                                 <span>•</span>
                                 <span>{recipe.servings} srv</span>
@@ -245,11 +245,11 @@ export default function MealPlannerPage() {
                       className={`p-3 rounded-2xl text-center border transition-all ${
                         isToday
                           ? 'bg-primary text-white border-primary shadow-md font-bold'
-                          : 'bg-white text-stone-800 border-stone-200/80 shadow-subtle'
+                          : 'bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-200 border-stone-200/80 dark:border-stone-800 shadow-subtle'
                       }`}
                     >
                       <div className="text-xs font-bold uppercase tracking-wider">{dayName}</div>
-                      <div className={`text-sm mt-0.5 ${isToday ? 'text-white' : 'text-stone-500 font-medium'}`}>
+                      <div className={`text-sm mt-0.5 ${isToday ? 'text-white' : 'text-stone-500 dark:text-stone-400 font-medium'}`}>
                         {formattedDate}
                       </div>
                     </div>
@@ -273,14 +273,14 @@ export default function MealPlannerPage() {
                                 {...provided.droppableProps}
                                 className={`min-h-[110px] rounded-2xl p-2.5 border transition-all flex flex-col justify-between ${
                                   snapshot.isDraggingOver
-                                    ? 'bg-amber-50 border-dashed border-2 border-primary shadow-inner ring-2 ring-primary/20'
+                                    ? 'bg-amber-50 dark:bg-amber-950/40 border-dashed border-2 border-primary shadow-inner ring-2 ring-primary/20'
                                     : assignedRecipe
-                                    ? 'bg-white border-stone-200/90 shadow-sm'
-                                    : 'bg-stone-50/50 hover:bg-stone-50 border-stone-200/60 border-dashed'
+                                    ? 'bg-white dark:bg-stone-900 border-stone-200/90 dark:border-stone-800 shadow-sm'
+                                    : 'bg-stone-50/50 dark:bg-stone-850/40 hover:bg-stone-50 dark:hover:bg-stone-850/70 border-stone-200/60 dark:border-stone-800 border-dashed'
                                 }`}
                               >
                                 {/* Slot Label */}
-                                <div className="flex items-center justify-between text-[11px] font-semibold text-stone-400 mb-1.5">
+                                <div className="flex items-center justify-between text-[11px] font-semibold text-stone-400 dark:text-stone-500 mb-1.5">
                                   <span className="flex items-center gap-1">
                                     <span>{icon}</span>
                                     <span>{label}</span>
@@ -289,7 +289,7 @@ export default function MealPlannerPage() {
                                   {assignedRecipe && currentPlan && (
                                     <button
                                       onClick={() => store.removeMealSlot(currentPlan.id)}
-                                      className="p-1 rounded text-stone-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                                      className="p-1 rounded text-stone-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors"
                                       title="Remove from slot"
                                     >
                                       <X className="w-3.5 h-3.5" />
@@ -308,19 +308,19 @@ export default function MealPlannerPage() {
                                         alt={assignedRecipe.title}
                                         className="w-8 h-8 rounded-lg object-cover flex-shrink-0"
                                       />
-                                      <p className="text-xs font-bold text-stone-900 leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                                      <p className="text-xs font-bold text-stone-900 dark:text-stone-100 leading-snug line-clamp-2 group-hover:text-primary transition-colors">
                                         {assignedRecipe.title}
                                       </p>
                                     </div>
 
                                     {/* Serving Scaler Control */}
-                                    <div className="flex items-center justify-between pt-1 border-t border-stone-100 text-[11px] text-stone-600">
+                                    <div className="flex items-center justify-between pt-1 border-t border-stone-100 dark:border-stone-800 text-[11px] text-stone-600 dark:text-stone-400">
                                       <span className="flex items-center gap-1 font-medium">
-                                        <Users className="w-3 h-3 text-amber-600" />
+                                        <Users className="w-3 h-3 text-amber-600 dark:text-amber-400" />
                                         <span>Yield</span>
                                       </span>
 
-                                      <div className="flex items-center gap-1 bg-stone-100 px-1.5 py-0.5 rounded-lg border border-stone-200">
+                                      <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-800 px-1.5 py-0.5 rounded-lg border border-stone-200 dark:border-stone-700">
                                         <button
                                           onClick={() =>
                                             store.updateMealPlanServings(
@@ -328,11 +328,11 @@ export default function MealPlannerPage() {
                                               currentPlan.servings_scaled - 1
                                             )
                                           }
-                                          className="w-4 h-4 rounded hover:bg-stone-200 text-stone-800 font-bold flex items-center justify-center text-xs"
+                                          className="w-4 h-4 rounded hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 font-bold flex items-center justify-center text-xs"
                                         >
                                           -
                                         </button>
-                                        <span className="font-bold text-stone-900 px-1">
+                                        <span className="font-bold text-stone-900 dark:text-stone-100 px-1">
                                           {currentPlan.servings_scaled}
                                         </span>
                                         <button
@@ -342,7 +342,7 @@ export default function MealPlannerPage() {
                                               currentPlan.servings_scaled + 1
                                             )
                                           }
-                                          className="w-4 h-4 rounded hover:bg-stone-200 text-stone-800 font-bold flex items-center justify-center text-xs"
+                                          className="w-4 h-4 rounded hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 font-bold flex items-center justify-center text-xs"
                                         >
                                           +
                                         </button>
@@ -352,7 +352,7 @@ export default function MealPlannerPage() {
                                 ) : (
                                   <button
                                     onClick={() => setQuickAddSlot({ date: dateStr, mealType: type })}
-                                    className="flex-1 flex flex-col items-center justify-center text-stone-400 hover:text-stone-700 py-3 text-center transition-colors group"
+                                    className="flex-1 flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 py-3 text-center transition-colors group"
                                   >
                                     <Plus className="w-4 h-4 mb-0.5 group-hover:scale-125 transition-transform text-stone-400 group-hover:text-primary" />
                                     <span className="text-[10px] font-medium">Add Meal</span>
@@ -376,17 +376,17 @@ export default function MealPlannerPage() {
         {/* Quick Add Modal (Click-to-Add for touch/mobile) */}
         {quickAddSlot && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 space-y-4 max-h-[80vh] flex flex-col">
+            <div className="bg-white dark:bg-stone-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 space-y-4 max-h-[80vh] flex flex-col">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-bold text-stone-900 text-base capitalize">
+                  <h3 className="font-bold text-stone-900 dark:text-stone-100 text-base capitalize">
                     Add to {quickAddSlot.mealType}
                   </h3>
-                  <p className="text-xs text-stone-500">{quickAddSlot.date}</p>
+                  <p className="text-xs text-stone-500 dark:text-stone-400">{quickAddSlot.date}</p>
                 </div>
                 <button
                   onClick={() => setQuickAddSlot(null)}
-                  className="p-1.5 text-stone-400 hover:text-stone-700 rounded-lg"
+                  className="p-1.5 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 rounded-lg"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -397,7 +397,7 @@ export default function MealPlannerPage() {
                   <div
                     key={r.id}
                     onClick={() => handleQuickAdd(r.id)}
-                    className="p-3 rounded-xl border border-stone-200 hover:border-primary hover:bg-amber-50/50 cursor-pointer flex items-center justify-between gap-3 transition-colors"
+                    className="p-3 rounded-xl border border-stone-200 dark:border-stone-800 hover:border-primary dark:hover:border-primary hover:bg-amber-50/50 dark:hover:bg-stone-800/60 cursor-pointer flex items-center justify-between gap-3 transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
                       <img
@@ -406,8 +406,8 @@ export default function MealPlannerPage() {
                         className="w-10 h-10 rounded-lg object-cover"
                       />
                       <div>
-                        <p className="font-bold text-xs text-stone-900">{r.title}</p>
-                        <p className="text-[11px] text-stone-500">
+                        <p className="font-bold text-xs text-stone-900 dark:text-stone-100">{r.title}</p>
+                        <p className="text-[11px] text-stone-500 dark:text-stone-400">
                           {r.prep_time_mins}m • {r.servings} servings
                         </p>
                       </div>
@@ -432,4 +432,3 @@ export default function MealPlannerPage() {
     </DragDropContext>
   );
 }
-

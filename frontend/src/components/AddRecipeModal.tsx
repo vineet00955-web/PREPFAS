@@ -82,7 +82,7 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden my-8 max-h-[92vh] flex flex-col">
+      <div className="relative w-full max-w-3xl bg-white dark:bg-stone-900 rounded-3xl shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden my-8 max-h-[92vh] flex flex-col">
         {/* Header */}
         <div className="p-6 bg-stone-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -106,7 +106,7 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
         <form onSubmit={handleSubmit} className="p-6 overflow-y-auto flex-1 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-3">
-              <label className="block text-xs font-semibold text-stone-700 mb-1">
+              <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                 Recipe Title *
               </label>
               <input
@@ -115,12 +115,12 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
                 placeholder="e.g. Crispy Honey Garlic Tofu"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-stone-900 font-semibold text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-semibold text-sm focus:ring-2 focus:ring-primary focus:outline-none placeholder-stone-400"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-stone-700 mb-1">
+              <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                 Prep Time (minutes)
               </label>
               <input
@@ -128,12 +128,12 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
                 min="1"
                 value={prepTime}
                 onChange={(e) => setPrepTime(parseInt(e.target.value) || 1)}
-                className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-stone-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-full px-3.5 py-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-stone-700 mb-1">
+              <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                 Servings Yield
               </label>
               <input
@@ -141,12 +141,12 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
                 min="1"
                 value={servings}
                 onChange={(e) => setServings(parseInt(e.target.value) || 1)}
-                className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-stone-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-full px-3.5 py-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-stone-700 mb-1">
+              <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                 Tags (comma separated)
               </label>
               <input
@@ -154,12 +154,12 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
                 placeholder="Dinner, Quick, High-Protein"
                 value={tagsInput}
                 onChange={(e) => setTagsInput(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-stone-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-full px-3.5 py-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 text-sm focus:ring-2 focus:ring-primary focus:outline-none placeholder-stone-400"
               />
             </div>
 
             <div className="md:col-span-3">
-              <label className="block text-xs font-semibold text-stone-700 mb-1">
+              <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                 Photo URL (Optional)
               </label>
               <input
@@ -167,7 +167,7 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
                 placeholder="https://images.unsplash.com/..."
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-stone-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-full px-3.5 py-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 text-sm focus:ring-2 focus:ring-primary focus:outline-none placeholder-stone-400"
               />
             </div>
           </div>
@@ -175,7 +175,7 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
           {/* Dynamic Ingredients */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-bold text-stone-700 uppercase tracking-wider">
+              <label className="text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider">
                 Ingredients ({ingredients.length})
               </label>
               <button
@@ -192,7 +192,7 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
               {ingredients.map((ing, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-2 p-2 rounded-xl bg-stone-50 border border-stone-200"
+                  className="flex items-center gap-2 p-2 rounded-xl bg-stone-50 dark:bg-stone-800/80 border border-stone-200 dark:border-stone-750"
                 >
                   <input
                     type="number"
@@ -200,28 +200,28 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
                     min="0.1"
                     value={ing.amount}
                     onChange={(e) => updateIngredient(idx, 'amount', parseFloat(e.target.value) || 1)}
-                    className="w-16 px-2 py-1 text-xs rounded-lg border border-stone-300 bg-white"
+                    className="w-16 px-2 py-1 text-xs rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100"
                     placeholder="Qty"
                   />
                   <input
                     type="text"
                     value={ing.unit}
                     onChange={(e) => updateIngredient(idx, 'unit', e.target.value)}
-                    className="w-20 px-2 py-1 text-xs rounded-lg border border-stone-300 bg-white"
+                    className="w-20 px-2 py-1 text-xs rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100"
                     placeholder="Unit"
                   />
                   <input
                     type="text"
                     value={ing.name}
                     onChange={(e) => updateIngredient(idx, 'name', e.target.value)}
-                    className="flex-1 px-2.5 py-1 text-xs rounded-lg border border-stone-300 bg-white font-medium"
+                    className="flex-1 px-2.5 py-1 text-xs rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 font-medium text-stone-900 dark:text-stone-100"
                     placeholder="Ingredient name (e.g. Baby Spinach)"
                     required
                   />
                   <select
                     value={ing.category}
                     onChange={(e) => updateIngredient(idx, 'category', e.target.value as AisleCategory)}
-                    className="px-2 py-1 text-xs rounded-lg border border-stone-300 bg-white capitalize"
+                    className="px-2 py-1 text-xs rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 capitalize"
                   >
                     <option value="Produce">Produce</option>
                     <option value="Dairy">Dairy</option>
@@ -247,24 +247,24 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
 
           {/* Instructions */}
           <div>
-            <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-2">
               Cooking Instructions (One step per line)
             </label>
             <textarea
               rows={4}
               value={instructionsText}
               onChange={(e) => setInstructionsText(e.target.value)}
-              className="w-full p-3 text-xs rounded-xl border border-stone-300 text-stone-800 focus:outline-none focus:ring-2 focus:ring-primary leading-relaxed"
+              className="w-full p-3 text-xs rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-primary leading-relaxed"
               placeholder="1. Prep ingredients...&#10;2. Sauté aromatics...&#10;3. Plate and serve."
               required
             />
           </div>
 
-          <div className="pt-4 border-t border-stone-200 flex justify-end gap-3">
+          <div className="pt-4 border-t border-stone-200 dark:border-stone-800 flex justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-stone-600 hover:text-stone-900 font-medium text-xs"
+              className="px-4 py-2 rounded-xl text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white font-medium text-xs"
             >
               Cancel
             </button>
@@ -280,4 +280,3 @@ export function AddRecipeModal({ isOpen, onClose, onSave }: AddRecipeModalProps)
     </div>
   );
 }
-

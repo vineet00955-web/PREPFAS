@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { isSupabaseConfigured } from '@/lib/supabase';
+import { ThemeToggle } from './ThemeToggle';
 
 const navItems = [
   { href: '/', label: 'Dashboard', icon: Home },
@@ -38,15 +39,18 @@ export function Sidebar() {
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold shadow-md">
             <UtensilsCrossed className="w-5 h-5" />
           </div>
-          <span className="font-bold text-lg tracking-tight">Prep<span className="text-primary">Fast</span></span>
+          <span className="font-extrabold text-lg tracking-tight">EXTEP</span>
         </Link>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-lg bg-stone-800 text-stone-200 hover:text-white"
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle align="right" variant="compact" />
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-lg bg-stone-800 text-stone-200 hover:text-white"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Backdrop for mobile */}
@@ -71,7 +75,7 @@ export function Sidebar() {
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-extrabold text-xl tracking-tight text-white">
-                Prep<span className="text-primary">Fast</span>
+                EXTEP
               </span>
               <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-900/60 text-emerald-400 border border-emerald-700/40">
                 PRO
@@ -82,7 +86,7 @@ export function Sidebar() {
         </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+        <nav className="flex-1 px-4 py-5 space-y-1.5 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -104,15 +108,24 @@ export function Sidebar() {
           })}
         </nav>
 
-        {/* Quick Tips / AI Card */}
-        <div className="p-4 mx-4 mb-4 rounded-xl bg-gradient-to-br from-stone-800/90 to-stone-800/40 border border-stone-700/50">
-          <div className="flex items-center gap-2 text-amber-400 text-xs font-semibold mb-1.5">
-            <Sparkles className="w-4 h-4" />
-            <span>FastAPI Scraper Active</span>
+        {/* Quick Tips Card */}
+        <div className="p-3.5 mx-4 mb-3 rounded-xl bg-gradient-to-br from-stone-800/90 to-stone-800/40 border border-stone-700/50">
+          <div className="flex items-center gap-2 text-amber-400 text-xs font-semibold mb-1">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Recipe Engine Active</span>
           </div>
-          <p className="text-xs text-stone-400 leading-relaxed">
-            Import any web recipe link with auto unit normalization and pantry deduction.
+          <p className="text-[11px] text-stone-400 leading-relaxed">
+            Import any recipe link with instant ingredient parsing and automated pantry deduction.
           </p>
+        </div>
+
+        {/* Theme Mode Switcher */}
+        <div className="px-4 py-3 border-t border-stone-800">
+          <div className="flex items-center justify-between text-xs text-stone-400 mb-2">
+            <span className="font-medium text-stone-300">Appearance</span>
+            <span className="text-[10px] text-stone-500 uppercase tracking-wider">Theme</span>
+          </div>
+          <ThemeToggle variant="expanded" />
         </div>
 
         {/* Bottom Connection Status */}
@@ -142,4 +155,3 @@ export function Sidebar() {
     </>
   );
 }
-

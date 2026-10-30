@@ -19,10 +19,10 @@ export function RecipeCard({ recipe, onView, onPlan, onDelete }: RecipeCardProps
     'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&auto=format&fit=crop&q=80';
 
   return (
-    <div className="group bg-white rounded-2xl border border-stone-200/80 shadow-subtle hover:shadow-lift transition-all duration-300 flex flex-col overflow-hidden">
+    <div className="group bg-white dark:bg-stone-900 rounded-2xl border border-stone-200/80 dark:border-stone-800 shadow-subtle hover:shadow-lift transition-all duration-300 flex flex-col overflow-hidden">
       {/* Recipe Photo */}
       <div
-        className="relative h-48 w-full bg-stone-100 overflow-hidden cursor-pointer"
+        className="relative h-48 w-full bg-stone-100 dark:bg-stone-800 overflow-hidden cursor-pointer"
         onClick={() => onView(recipe)}
       >
         <img
@@ -35,12 +35,12 @@ export function RecipeCard({ recipe, onView, onPlan, onDelete }: RecipeCardProps
 
         {/* Badges on top */}
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/90 text-stone-800 backdrop-blur-md shadow-sm">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/90 dark:bg-stone-900/90 text-stone-800 dark:text-stone-200 backdrop-blur-md shadow-sm">
             <Clock className="w-3.5 h-3.5 text-primary" />
             {recipe.prep_time_mins} mins
           </span>
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/90 text-stone-800 backdrop-blur-md shadow-sm">
-            <Users className="w-3.5 h-3.5 text-amber-600" />
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/90 dark:bg-stone-900/90 text-stone-800 dark:text-stone-200 backdrop-blur-md shadow-sm">
+            <Users className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
             {recipe.servings} srv
           </span>
         </div>
@@ -64,13 +64,13 @@ export function RecipeCard({ recipe, onView, onPlan, onDelete }: RecipeCardProps
         <div>
           <h3
             onClick={() => onView(recipe)}
-            className="font-bold text-stone-900 text-base leading-snug line-clamp-2 hover:text-primary transition-colors cursor-pointer"
+            className="font-bold text-stone-900 dark:text-stone-100 text-base leading-snug line-clamp-2 hover:text-primary transition-colors cursor-pointer"
             title={recipe.title}
           >
             {recipe.title}
           </h3>
 
-          <div className="mt-2 text-xs text-stone-500 flex items-center gap-2">
+          <div className="mt-2 text-xs text-stone-500 dark:text-stone-400 flex items-center gap-2">
             <span>{recipe.ingredients?.length || 0} ingredients</span>
             <span>•</span>
             <span>{recipe.instructions?.length || 0} steps</span>
@@ -78,10 +78,10 @@ export function RecipeCard({ recipe, onView, onPlan, onDelete }: RecipeCardProps
         </div>
 
         {/* Footer actions */}
-        <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
+        <div className="mt-4 pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between gap-2">
           <button
             onClick={() => onView(recipe)}
-            className="text-xs font-medium text-stone-600 hover:text-stone-900 py-1.5 px-2.5 rounded-lg hover:bg-stone-100 transition-colors"
+            className="text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white py-1.5 px-2.5 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
           >
             Details
           </button>
@@ -90,7 +90,7 @@ export function RecipeCard({ recipe, onView, onPlan, onDelete }: RecipeCardProps
             {onPlan && (
               <button
                 onClick={() => onPlan(recipe)}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-white bg-primary/10 hover:bg-primary py-1.5 px-3 rounded-lg transition-all"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-white bg-primary/10 hover:bg-primary dark:bg-primary/20 dark:hover:bg-primary py-1.5 px-3 rounded-lg transition-all"
                 title="Schedule into Meal Planner"
               >
                 <CalendarPlus className="w-3.5 h-3.5" />
@@ -101,10 +101,10 @@ export function RecipeCard({ recipe, onView, onPlan, onDelete }: RecipeCardProps
             {onDelete && (
               <button
                 onClick={() => onDelete(recipe.id)}
-                className="text-stone-400 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
+                className="p-1.5 text-stone-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-lg transition-colors"
                 title="Delete Recipe"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
@@ -113,4 +113,3 @@ export function RecipeCard({ recipe, onView, onPlan, onDelete }: RecipeCardProps
     </div>
   );
 }
-

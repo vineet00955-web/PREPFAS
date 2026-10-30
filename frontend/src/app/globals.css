@@ -15,6 +15,18 @@
   --radius: 0.75rem;
 }
 
+.dark {
+  --background: #0c0a09;
+  --foreground: #f5f5f4;
+  --card: #1c1917;
+  --card-foreground: #f5f5f4;
+  --primary: #e0533c;
+  --primary-foreground: #ffffff;
+  --border: #292524;
+  --input: #292524;
+  --ring: #e0533c;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
@@ -37,8 +49,16 @@ body {
   border-radius: 9999px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: #44403c;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #78716c;
 }
 
 /* Print styles for grocery list */
@@ -52,4 +72,3 @@ body {
     width: 100% !important;
   }
 }
-

@@ -50,7 +50,7 @@ export default function DashboardPage() {
 
           <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight">
             Plan effortlessly. <br className="hidden sm:inline" />
-            Cook deliciously with <span className="text-primary">PrepFast</span>.
+            Cook deliciously with <span className="text-primary">EXTEP</span>.
           </h1>
 
           <p className="text-stone-300 text-sm lg:text-base leading-relaxed">
@@ -93,88 +93,88 @@ export default function DashboardPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <Link
           href="/recipes"
-          className="p-5 rounded-2xl bg-white border border-stone-200/80 shadow-subtle hover:shadow-card transition-all group"
+          className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800 shadow-subtle hover:shadow-card transition-all group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">
               Saved Recipes
             </span>
-            <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
               <BookOpen className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-stone-900">{recipes.length}</span>
-            <span className="text-xs text-stone-500">in vault</span>
+            <span className="text-3xl font-extrabold text-stone-900 dark:text-stone-100">{recipes.length}</span>
+            <span className="text-xs text-stone-500 dark:text-stone-400">in vault</span>
           </div>
         </Link>
 
         <Link
           href="/planner"
-          className="p-5 rounded-2xl bg-white border border-stone-200/80 shadow-subtle hover:shadow-card transition-all group"
+          className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800 shadow-subtle hover:shadow-card transition-all group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">
               Planned Meals
             </span>
-            <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-primary/10 dark:bg-primary/20 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
               <CalendarDays className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-stone-900">{mealPlans.length}</span>
-            <span className="text-xs text-stone-500">scheduled</span>
+            <span className="text-3xl font-extrabold text-stone-900 dark:text-stone-100">{mealPlans.length}</span>
+            <span className="text-xs text-stone-500 dark:text-stone-400">scheduled</span>
           </div>
         </Link>
 
         <Link
           href="/grocery-list"
-          className="p-5 rounded-2xl bg-white border border-stone-200/80 shadow-subtle hover:shadow-card transition-all group"
+          className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800 shadow-subtle hover:shadow-card transition-all group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">
               Groceries Needed
             </span>
-            <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
               <ShoppingCart className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-stone-900">
+            <span className="text-3xl font-extrabold text-stone-900 dark:text-stone-100">
               {grocerySummary.total_items_count}
             </span>
-            <span className="text-xs text-stone-500">net items</span>
+            <span className="text-xs text-stone-500 dark:text-stone-400">net items</span>
           </div>
         </Link>
 
         <Link
           href="/pantry"
-          className="p-5 rounded-2xl bg-white border border-stone-200/80 shadow-subtle hover:shadow-card transition-all group"
+          className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800 shadow-subtle hover:shadow-card transition-all group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">
               Pantry Inventory
             </span>
-            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
               <Boxes className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-stone-900">{pantry.length}</span>
-            <span className="text-xs text-stone-500">stocked items</span>
+            <span className="text-3xl font-extrabold text-stone-900 dark:text-stone-100">{pantry.length}</span>
+            <span className="text-xs text-stone-500 dark:text-stone-400">stocked items</span>
           </div>
         </Link>
       </div>
 
       {/* Today's Meals Section */}
-      <div className="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-subtle">
+      <div className="p-6 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800 shadow-subtle">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h2 className="text-xl font-bold text-stone-900 flex items-center gap-2">
+            <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
               <Utensils className="w-5 h-5 text-primary" />
               <span>Today&apos;s Menu</span>
             </h2>
-            <p className="text-xs text-stone-500">
+            <p className="text-xs text-stone-500 dark:text-stone-400">
               {new Date().toLocaleDateString(undefined, {
                 weekday: 'long',
                 month: 'short',
@@ -193,15 +193,15 @@ export default function DashboardPage() {
         </div>
 
         {todayMeals.length === 0 ? (
-          <div className="text-center py-10 px-4 rounded-2xl bg-stone-50 border border-dashed border-stone-300">
+          <div className="text-center py-10 px-4 rounded-2xl bg-stone-50 dark:bg-stone-850/60 border border-dashed border-stone-300 dark:border-stone-750">
             <CalendarDays className="w-10 h-10 text-stone-400 mx-auto mb-2" />
-            <p className="text-stone-700 font-semibold text-sm">No meals scheduled for today yet</p>
-            <p className="text-xs text-stone-500 max-w-sm mx-auto mt-1 mb-4">
+            <p className="text-stone-700 dark:text-stone-300 font-semibold text-sm">No meals scheduled for today yet</p>
+            <p className="text-xs text-stone-500 dark:text-stone-400 max-w-sm mx-auto mt-1 mb-4">
               Drag recipes into today&apos;s slots in the meal planner to automatically aggregate your ingredients.
             </p>
             <Link
               href="/planner"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-stone-900 text-white text-xs font-semibold hover:bg-black transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-stone-900 dark:bg-stone-800 text-white text-xs font-semibold hover:bg-black dark:hover:bg-stone-700 transition-colors"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Schedule Today&apos;s Meals</span>
@@ -216,9 +216,9 @@ export default function DashboardPage() {
               return (
                 <div
                   key={type}
-                  className="p-4 rounded-2xl border border-stone-200 bg-stone-50/60 flex flex-col justify-between"
+                  className="p-4 rounded-2xl border border-stone-200 dark:border-stone-800 bg-stone-50/60 dark:bg-stone-800/50 flex flex-col justify-between"
                 >
-                  <span className="text-[11px] uppercase font-bold text-stone-400 tracking-wider capitalize">
+                  <span className="text-[11px] uppercase font-bold text-stone-400 dark:text-stone-500 tracking-wider capitalize">
                     {type}
                   </span>
 
@@ -233,11 +233,11 @@ export default function DashboardPage() {
                         <div className="min-w-0 flex-1">
                           <p
                             onClick={() => setSelectedRecipe(recipe)}
-                            className="font-bold text-xs text-stone-900 truncate hover:text-primary cursor-pointer"
+                            className="font-bold text-xs text-stone-900 dark:text-stone-100 truncate hover:text-primary cursor-pointer"
                           >
                             {recipe.title}
                           </p>
-                          <p className="text-[11px] text-stone-500">
+                          <p className="text-[11px] text-stone-500 dark:text-stone-400">
                             {meal?.servings_scaled} servings • {recipe.prep_time_mins}m
                           </p>
                         </div>
@@ -247,7 +247,7 @@ export default function DashboardPage() {
                     <div className="mt-3">
                       <Link
                         href="/planner"
-                        className="text-xs text-stone-500 hover:text-primary flex items-center gap-1 font-medium"
+                        className="text-xs text-stone-500 dark:text-stone-400 hover:text-primary flex items-center gap-1 font-medium"
                       >
                         <Plus className="w-3.5 h-3.5" />
                         <span>Add {type}</span>
@@ -265,14 +265,14 @@ export default function DashboardPage() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-stone-900">Your Recipe Vault</h2>
-            <p className="text-xs text-stone-500">Favorites & recently saved recipes</p>
+            <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">Your Recipe Vault</h2>
+            <p className="text-xs text-stone-500 dark:text-stone-400">Favorites & recently saved recipes</p>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowAddModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-xs font-semibold text-stone-700 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-750 text-xs font-semibold text-stone-700 dark:text-stone-200 transition-colors"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Add Custom</span>
@@ -323,4 +323,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-

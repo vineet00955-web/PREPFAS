@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Sidebar } from '@/components/Sidebar';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
-  title: 'PrepFast | Smart Recipe Vault, Meal Planner & Grocery Generator',
+  title: 'EXTEP | Smart Recipe Vault, Meal Planner & Grocery Generator',
   description:
     'Modern culinary assistant with automated recipe scraping, interactive drag-and-drop meal planning, and aisle-categorized grocery list generator with pantry stock deduction.',
 };
@@ -14,19 +15,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-[#fdfbf7] text-stone-900 flex antialiased">
-        {/* Navigation Sidebar */}
-        <Sidebar />
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen bg-[#fdfbf7] dark:bg-stone-950 text-stone-900 dark:text-stone-100 flex antialiased transition-colors duration-200">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem={true}
+          disableTransitionOnChange
+        >
+          {/* Navigation Sidebar */}
+          <Sidebar />
 
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
-          <main className="flex-1 pt-16 lg:pt-0 min-h-screen">
-            {children}
-          </main>
-        </div>
+          {/* Main Content Area */}
+          <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
+            <main className="flex-1 pt-16 lg:pt-0 min-h-screen">
+              {children}
+            </main>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
 }
-

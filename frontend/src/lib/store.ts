@@ -5,9 +5,9 @@ import { INITIAL_RECIPES, INITIAL_PANTRY, getInitialMealPlans } from './initialD
 import { MealPlan, PantryItem, Recipe, MealType } from './types';
 import { isSupabaseConfigured, supabase } from './supabase';
 
-const RECIPES_KEY = 'prepfast_recipes';
-const PANTRY_KEY = 'prepfast_pantry';
-const MEAL_PLANS_KEY = 'prepfast_meal_plans';
+const RECIPES_KEY = 'extep_recipes';
+const PANTRY_KEY = 'extep_pantry';
+const MEAL_PLANS_KEY = 'extep_meal_plans';
 
 // Simple pub-sub bus for multi-component reactivity
 type Listener = () => void;
@@ -28,7 +28,8 @@ export function subscribeToStore(listener: Listener) {
 function getLocal<T>(key: string, fallback: T): T {
   if (typeof window === 'undefined') return fallback;
   try {
-    const item = window.localStorage.getItem(key);
+    const legacyKey = key.replace('extep_', 'prepfast_');
+    const item = window.localStorage.getItem(key) || window.localStorage.getItem(legacyKey);
     return item ? JSON.parse(item) : fallback;
   } catch (e) {
     console.error(`Error reading ${key} from localStorage:`, e);
